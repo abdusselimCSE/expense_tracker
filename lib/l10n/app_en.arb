@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "totalBalance": "Total Balance",
+  "income": "Income",
+  "expenses": "Expenses",
+  "inputYourExpenses": "Input your expenses",
+  "goodAfternoon":"Good Afternoon,",
+  "addExpense": "Add Expense",
+  "name":"NAME",
+  "amount":"AMAOUNT",
+  "date":"DATE",
+  "invoice":"INVOICE",
+  "addInvoice": "Add Invoice"
+}

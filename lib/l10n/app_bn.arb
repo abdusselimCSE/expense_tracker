@@ -1,0 +1,14 @@
+{
+  "@@locale": "bn",
+  "totalBalance": "মোট ব্যালেন্স",
+  "income": "আয়",
+  "expenses": "ব্যয়",
+  "inputYourExpenses": "আপনার খরচ লিখুন",
+  "goodAfternoon":"শুভ অপরাহ্ন,",
+  "addExpense": "খরচ যোগ করুন",
+  "name":"নাম",
+  "amount":"পরিমাণ",  
+  "date":"তারিখ",
+  "invoice":"চালান",
+  "addInvoice": "রসিদ যোগ করুন"
+}
