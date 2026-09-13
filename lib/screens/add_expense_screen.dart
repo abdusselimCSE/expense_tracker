@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_tracker/core/constants/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/utils/screen_layout.dart';
 import 'package:expense_tracker/widgets/app_header_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -63,16 +64,32 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             color: Colors.white,
           ),
         ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 24),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: SvgPicture.asset(
-                "assets/images/navigation_bar_icons/more_icon.svg",
-                width: 26,
-                height: 6,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ScreenLayout(),
               ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 24),
+            child: Center(
+              child: SvgPicture.asset(
+                "assets/images/Icon.svg",
+              ),
+            ),
+          ),
+        ),
+        actionsPadding: EdgeInsets.only(right: 24),
+        actions: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: SvgPicture.asset(
+              "assets/images/navigation_bar_icons/more_icon.svg",
+              width: 26,
+              height: 6,
             ),
           ),
         ],
