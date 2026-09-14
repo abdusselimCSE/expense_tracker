@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:expense_tracker/core/constants/constants.dart';
 import 'package:expense_tracker/core/navigation/fade_page_route.dart';
-import 'package:expense_tracker/screens/add_expense_screen.dart';
+import 'package:expense_tracker/screens/connect_wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
           context,
         ).pushReplacement(
           MyCustomRouteTransition(
-            route: const AddExpenseScreen(),
+            route: const ConnectWalletScreen(),
           ),
         );
       }

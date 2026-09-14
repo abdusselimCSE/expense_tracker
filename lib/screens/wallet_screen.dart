@@ -125,19 +125,121 @@ class WalletScreen extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: AppConstants.primaryColor,
-                            width: 1,
+                      InkWell(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Container(
+                                  width: 380,
+                                  height: 355,
+                                  padding: EdgeInsets.all(24),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: AppConstants.primaryColor,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "Select an option",
+                                        style:
+                                            TextTheme.of(
+                                              context,
+                                            ).titleMedium!.copyWith(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                      ),
+                                      SizedBox(height: 24),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Cards",
+                                            style:
+                                                TextTheme.of(
+                                                  context,
+                                                ).titleMedium!.copyWith(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                          ),
+                                          SvgPicture.asset(
+                                            "assets/icons/emoji _credit card_.svg",
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Bank Account",
+                                            style:
+                                                TextTheme.of(
+                                                  context,
+                                                ).titleMedium!.copyWith(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                          ),
+                                          SvgPicture.asset(
+                                            "assets/icons/icon _bank account_.svg",
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "Others",
+                                            style:
+                                                TextTheme.of(
+                                                  context,
+                                                ).titleMedium!.copyWith(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                          ),
+                                          SvgPicture.asset(
+                                            "assets/icons/illustration _bitcoin cash money_.svg",
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 8),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppConstants.primaryColor,
+                              width: 1,
+                            ),
                           ),
-                        ),
-                        child: SvgPicture.asset(
-                          "assets/images/wallet_page_icons/plus_fill.svg",
+                          child: SvgPicture.asset(
+                            "assets/images/wallet_page_icons/plus_fill.svg",
+                          ),
                         ),
                       ),
                       SizedBox(height: 8),
