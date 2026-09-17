@@ -1,7 +1,7 @@
 import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/main.dart';
-import 'package:expense_tracker/screens/splash_screen.dart';
-import 'package:expense_tracker/utils/screen_layout.dart';
+import 'package:expense_tracker/app/presentation/screens/splash_screen.dart';
+import 'package:expense_tracker/app/presentation/layouts/screen_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

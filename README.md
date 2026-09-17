@@ -18,11 +18,11 @@ The current milestone focuses on mobile UI, navigation, and form interactions.
 
 | Area | What to review | Source |
 | --- | --- | --- |
-| Expense form | Reusable inputs, controller lifecycle, date selection, and keyboard-aware scrolling | [add_expense_screen.dart](lib/screens/add_expense_screen.dart) |
+| Expense form | Reusable inputs, controller lifecycle, date selection, and keyboard-aware scrolling | [add_expense_screen.dart](lib/features/expenses/screens/add_expense_screen.dart) |
 | App theme | Inter font family, shared input styling, buttons, and localization configuration | [main.dart](lib/main.dart) |
-| Shared decoration | Reused curved header and decorative circles | [app_header_background.dart](lib/widgets/app_header_background.dart) |
-| Dashboard | Balance card and localized number display | [home_screen.dart](lib/screens/home_screen.dart) |
-| Navigation | Tab switching, retained tab state, and Add Expense navigation | [screen_layout.dart](lib/utils/screen_layout.dart) |
+| Shared decoration | Reused curved header and decorative circles | [app_header_background.dart](lib/shared/presentation/widgets/app_header_background.dart) |
+| Dashboard | Balance card and localized number display | [home_screen.dart](lib/features/dashboard/screens/home_screen.dart) |
+| Navigation | Tab switching, retained tab state, and Add Expense navigation | [screen_layout.dart](lib/app/presentation/layouts/screen_layout.dart) |
 | Localization | English and Bangla translation resources | [lib/l10n](lib/l10n) |
 | Tests | Startup, navigation, Bangla labels, and splash cleanup checks | [widget_test.dart](test/widget_test.dart) |
 
@@ -57,7 +57,10 @@ The current milestone focuses on mobile UI, navigation, and form interactions.
 | `flutter_test` and `flutter_lints` | Widget checks and static analysis |
 
 The project currently uses `StatefulWidget`, `setState`, and text controllers for local UI state.
-Clean Architecture and Domain-Driven Design are planned as the data and business layers are introduced.
+Features are grouped into simple `screens/` and, where useful, `widgets/` folders.
+Add business and data layers gradually when those implementations begin.
+Clean Architecture behavior and Domain-Driven Design models remain planned.
+See [the organization handover](docs/project_organization_handover.txt) for the complete move list and remaining boundaries.
 
 ## Run locally
 
@@ -85,8 +88,8 @@ No Firebase project, API credentials, or database configuration is required for 
 
 ### Current preview flow
 
-The checked-in splash route currently opens `AddExpenseScreen` directly for UI development.
-To preview the full dashboard flow, change the splash destination to `ScreenLayout` in [splash_screen.dart](lib/screens/splash_screen.dart), import `utils/screen_layout.dart`, and hot restart.
+The checked-in splash route currently opens `ConnectWalletScreen` directly for UI development.
+To preview the full dashboard flow, change the splash destination to `ScreenLayout` in [splash_screen.dart](lib/app/presentation/screens/splash_screen.dart), import `package:expense_tracker/app/presentation/layouts/screen_layout.dart`, and hot restart.
 The Home floating action button pushes Add Expense onto the navigation stack.
 
 ## Localization
@@ -113,20 +116,26 @@ Persistent wallet currencies and transaction amounts remain future work.
 
 ```text
 lib/
-├── core/
-│   ├── constants/       # Shared colors and asset references
-│   └── navigation/      # Custom route transition
-├── l10n/                # ARB resources and generated localization code
-├── screens/             # Dashboard, expense form, auth layouts, and tab screens
-├── utils/               # Tab configuration and navigation shell
-├── widgets/             # Shared decoration and social login presentation
-└── main.dart            # App entry point and theme
+├── app/                 # Splash, tab shell, and tab configuration
+├── core/                # Shared constants and route transition
+├── features/
+│   ├── authentication/  # screens/ and widgets/ for login and sign-up
+│   ├── dashboard/       # screens/ for Home
+│   ├── expenses/        # screens/ and widgets/ for expense entry
+│   ├── wallet/          # screens/ and widgets/ for wallet UI
+│   ├── reports/         # screens/ for charts
+│   └── profile/         # screens/ for profile
+├── shared/presentation/widgets/  # Shared header decoration
+├── l10n/                # Unchanged translations and generated localization code
+└── main.dart            # Unchanged app setup; relocated imports only
 assets/
-├── fonts/
-├── icons/
-└── images/
+├── fonts/               # Inter and IBM Plex Mono, unchanged
+├── icons/               # authentication, navigation, shared, wallet
+├── illustrations/       # splash and wallet option illustrations
+└── images/              # backgrounds and wallet card artwork
 test/
-└── widget_test.dart
+├── widget_test.dart     # Existing suite; updated imports only
+└── features/            # Reserved locations for future feature tests
 ```
 
 ## Validation
@@ -138,7 +147,7 @@ flutter test
 
 The existing widget tests cover startup, bottom navigation, Bangla dashboard labels, and disposal of the splash timer.
 They are a starting point for automated coverage, and have not been reverified for this documentation update.
-The startup test expects the Home screen, while the current preview route opens Add Expense; that route/test mismatch must be resolved before expecting a green suite.
+The startup test expects the Home screen, while the current preview route opens Connect Wallet; that route/test mismatch must be resolved before expecting a green suite.
 There are no business-logic unit tests or automated visual comparisons yet.
 
 ## Next milestones

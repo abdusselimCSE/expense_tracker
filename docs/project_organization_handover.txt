@@ -1,0 +1,561 @@
+CURRENT UPDATE - SIMPLIFIED FEATURE FOLDERS
+Date: 2026-09-17
+
+The structure below supersedes the reserved feature-layer structure in the original handover.
+The original delivery record follows for historical reference; its feature paths are no longer current.
+
+CURRENT ORGANIZATION
+
+lib/features/
+  authentication/
+    screens/  - login_screen.dart, sign_up_screen.dart
+    widgets/  - social_login_button.dart
+  dashboard/
+    screens/  - home_screen.dart
+  expenses/
+    screens/  - add_expense_screen.dart
+    widgets/  - Reserved for future extracted expense widgets
+  wallet/
+    screens/  - wallet_screen.dart, connect_wallet_screen.dart
+    widgets/  - Reserved for future extracted wallet widgets
+  reports/
+    screens/  - chart_screen.dart
+  profile/
+    screens/  - user_screen.dart
+
+HOW TO USE IT
+
+A feature is an area of the app.
+Put full pages in screens/.
+Put smaller reusable pieces for that feature in widgets/.
+Create a widgets/ folder for another feature only when needed.
+WalletTextField and AccountOptionTile remain inside their existing screen file; no widgets were extracted in this pass.
+Add models, repositories, and other architecture layers when actual business logic and storage are introduced.
+The current organization does not claim completed Clean Architecture or DDD.
+
+CHANGES IN THIS UPDATE
+
+Removed the extra presentation/ level from feature paths.
+Removed unused feature domain/data folders and their .gitkeep markers.
+Kept all app/, core/, shared/, l10n/, asset, and test folder organization unchanged.
+Updated Dart imports and README links for the simplified paths.
+Consolidated the three legacy screen copies after verifying their UI code matched the feature copies after path normalization and import ordering.
+Only mechanical import paths changed in active Dart implementations.
+
+FEATURE MOVE REGISTER
+
+FROM: lib/features/expenses/presentation/screens/add_expense_screen.dart
+TO:   lib/features/expenses/screens/add_expense_screen.dart
+
+FROM: lib/features/dashboard/presentation/screens/home_screen.dart
+TO:   lib/features/dashboard/screens/home_screen.dart
+
+FROM: lib/features/profile/presentation/screens/user_screen.dart
+TO:   lib/features/profile/screens/user_screen.dart
+
+FROM: lib/features/wallet/presentation/screens/wallet_screen.dart
+TO:   lib/features/wallet/screens/wallet_screen.dart
+
+FROM: lib/features/wallet/presentation/screens/connect_wallet_screen.dart
+TO:   lib/features/wallet/screens/connect_wallet_screen.dart
+
+FROM: lib/features/authentication/presentation/screens/sign_up_screen.dart
+TO:   lib/features/authentication/screens/sign_up_screen.dart
+
+FROM: lib/features/authentication/presentation/screens/login_screen.dart
+TO:   lib/features/authentication/screens/login_screen.dart
+
+FROM: lib/features/authentication/presentation/widgets/social_login_button.dart
+TO:   lib/features/authentication/widgets/social_login_button.dart
+
+FROM: lib/features/reports/presentation/screens/chart_screen.dart
+TO:   lib/features/reports/screens/chart_screen.dart
+
+CONSOLIDATED LEGACY COPIES
+
+lib/screens/add_expense_screen.dart
+lib/screens/wallet_screen.dart
+lib/screens/connect_wallet_screen.dart
+
+VERIFICATION
+
+All active Dart file contents were verified unchanged except mapped imports.
+Validation: dart --suppress-analytics analyze lib test passed with no issues found.
+No asset moves or content changes were performed in this simplification.
+
+----- ORIGINAL DELIVERY RECORD (HISTORICAL PATHS) -----
+
+EXPENSE TRACKER - PROJECT ORGANIZATION HANDOVER
+Date: 2026-09-17
+Delivery: Folder organization, asset grouping, and mechanical reference updates
+
+1. SCOPE AND DELIVERY STATUS
+
+Organized the existing Flutter UI project into feature-first folders with reserved Clean Architecture layers.
+Moved 13 existing Dart files and grouped 28 existing SVG assets.
+Updated imports, asset references, pubspec.yaml asset directories, test imports, and README links.
+Preserved all existing widget implementations, navigation behavior, state handling, styles, controllers, and screen content.
+No new application functionality, business models, persistence, REST integration, or state-management framework was implemented.
+No dependencies were added.
+No commits, pushes, or publishing actions were performed.
+
+2. DESIGN REFERENCE AND LIMITATIONS
+
+Reference supplied by the client:
+https://www.figma.com/design/Zb4poyLuFQUirPEeaTQwu2/Expense-Tracker--Copy-?node-id=0-1
+
+The Figma file could not be inspected directly through the tools available in this session.
+Feature and asset grouping uses the Figma screenshots already shared in the conversation and the existing project files.
+No new assets were downloaded, redrawn, recolored, compressed, or deleted.
+This delivery does not claim a full Figma audit or pixel-perfect UI verification.
+
+3. ARCHITECTURE AND OWNERSHIP
+
+lib/app/
+Application-level presentation and composition: splash, bottom-tab layout, and tab configuration.
+The existing main.dart remains the entry point and still owns the theme and localization setup.
+
+lib/core/
+Existing shared constants and navigation transition utilities.
+Future network, storage, security, and telemetry adapters can be added here when those implementations begin.
+
+lib/shared/presentation/widgets/
+Cross-feature presentation widgets, currently the decorative header.
+
+lib/features/authentication/
+Login and sign-up screens plus the social-login button.
+Reserved domain and data folders for future identity/session behavior.
+
+lib/features/dashboard/
+Home balance summary and dashboard presentation.
+This is currently a presentation feature, not a separate business domain.
+
+lib/features/expenses/
+Expense-entry screen.
+Reserved domain and data folders for future expense rules, repository contracts, local persistence, remote access, and synchronization.
+
+lib/features/wallet/
+Wallet overview and Connect Wallet screens, including Cards and Accounts UI.
+Reserved domain and data folders for future wallet/account models and repositories.
+
+lib/features/reports/
+Existing chart screen.
+Reporting currently has only presentation; business or data folders can be added when real reporting rules are defined.
+
+lib/features/profile/
+Existing user screen.
+Only presentation is scaffolded until profile behavior and ownership are defined.
+
+lib/l10n/
+Translation resources and generated localization files remain at their existing paths.
+No generated localization files were edited by this organization pass.
+
+4. CLEAN ARCHITECTURE AND DDD STATUS
+
+The folder structure prepares the project for Clean Architecture; it does not itself implement architectural boundaries.
+Authentication, expenses, and wallet are provisional business areas, not validated DDD bounded contexts.
+Their reserved folders are:
+  domain/entities/           - Future business objects with identity.
+  domain/value_objects/      - Future validated values such as money or identifiers.
+  domain/repositories/       - Future contracts expressed in domain terms.
+  domain/use_cases/          - Future application operations requiring orchestration.
+  data/models/              - Future API/storage representations and mapping.
+  data/repositories/        - Future implementations of domain contracts.
+  data/datasources/local/    - Future database or local-file access.
+  data/datasources/remote/   - Future REST access.
+  presentation/screens/     - Existing screens.
+  presentation/widgets/     - Feature-specific reusable presentation.
+
+Future dependency direction:
+  Presentation calls domain contracts/use cases.
+  Data implements domain contracts and maps external representations.
+  Domain stays independent of Flutter widgets, HTTP clients, and storage plugins.
+  App composition supplies concrete dependencies.
+
+Keep current UI helpers embedded in their existing screen files until a separate code-refactoring task is authorized.
+For example, WalletTextField and AccountOptionTile remain in connect_wallet_screen.dart.
+An existing dependency remains from the shared header to decorative helper classes in home_screen.dart.
+Existing feature-to-app-shell references also remain.
+These dependencies were preserved to honor the folder-only scope and should be resolved in a future architecture implementation pass.
+No entities, aggregates, value objects, repositories, use cases, or synchronization rules have been implemented by this delivery.
+
+5. DART FILE MOVE REGISTER
+
+FROM: lib/screens/splash_screen.dart
+TO:   lib/app/presentation/screens/splash_screen.dart
+
+FROM: lib/utils/screen_layout.dart
+TO:   lib/app/presentation/layouts/screen_layout.dart
+
+FROM: lib/utils/global_variables.dart
+TO:   lib/app/navigation/global_variables.dart
+
+FROM: lib/screens/login_screen.dart
+TO:   lib/features/authentication/presentation/screens/login_screen.dart
+
+FROM: lib/screens/sign_up_screen.dart
+TO:   lib/features/authentication/presentation/screens/sign_up_screen.dart
+
+FROM: lib/widgets/social_login_button.dart
+TO:   lib/features/authentication/presentation/widgets/social_login_button.dart
+
+FROM: lib/screens/home_screen.dart
+TO:   lib/features/dashboard/presentation/screens/home_screen.dart
+
+FROM: lib/screens/add_expense_screen.dart
+TO:   lib/features/expenses/presentation/screens/add_expense_screen.dart
+
+FROM: lib/screens/wallet_screen.dart
+TO:   lib/features/wallet/presentation/screens/wallet_screen.dart
+
+FROM: lib/screens/connect_wallet_screen.dart
+TO:   lib/features/wallet/presentation/screens/connect_wallet_screen.dart
+
+FROM: lib/screens/chart_screen.dart
+TO:   lib/features/reports/presentation/screens/chart_screen.dart
+
+FROM: lib/screens/user_screen.dart
+TO:   lib/features/profile/presentation/screens/user_screen.dart
+
+FROM: lib/widgets/app_header_background.dart
+TO:   lib/shared/presentation/widgets/app_header_background.dart
+
+
+6. ASSET MOVE REGISTER
+
+Asset filenames use lowercase snake_case where renamed.
+Navigation filenames were preserved because the tab shell constructs their paths dynamically.
+Selected/unselected bank and PayPal assets retain their existing artwork and selection behavior.
+
+FROM: assets/images/splash.svg
+TO:   assets/illustrations/splash/splash.svg
+
+FROM: assets/images/header_background.svg
+TO:   assets/images/backgrounds/header_background.svg
+
+FROM: assets/images/card_shape.svg
+TO:   assets/images/wallet/card_pattern.svg
+
+FROM: assets/images/EMV Chip.svg
+TO:   assets/images/wallet/emv_chip.svg
+
+FROM: assets/images/Icon.svg
+TO:   assets/icons/shared/chevron_left.svg
+
+FROM: assets/images/notificatioin_icon.svg
+TO:   assets/icons/shared/notification.svg
+
+FROM: assets/images/navigation_bar_icons/more_icon.svg
+TO:   assets/icons/shared/more.svg
+
+FROM: assets/icons/apple_ic.svg
+TO:   assets/icons/authentication/apple.svg
+
+FROM: assets/icons/google_ic.svg
+TO:   assets/icons/authentication/google.svg
+
+FROM: assets/icons/facebook_ic.svg
+TO:   assets/icons/authentication/facebook.svg
+
+FROM: assets/icons/emoji _credit card_.svg
+TO:   assets/illustrations/wallet/credit_card.svg
+
+FROM: assets/icons/icon _bank account_.svg
+TO:   assets/illustrations/wallet/bank_account.svg
+
+FROM: assets/icons/illustration _bitcoin cash money_.svg
+TO:   assets/illustrations/wallet/cash.svg
+
+FROM: assets/images/bank.svg
+TO:   assets/icons/wallet/bank.svg
+
+FROM: assets/images/bank-fill.svg
+TO:   assets/icons/wallet/bank_filled.svg
+
+FROM: assets/images/logo-paypal.svg
+TO:   assets/icons/wallet/paypal.svg
+
+FROM: assets/images/logo-paypal-fill.svg
+TO:   assets/icons/wallet/paypal_filled.svg
+
+FROM: assets/images/wallet_page_icons/plus_fill.svg
+TO:   assets/icons/wallet/add.svg
+
+FROM: assets/images/wallet_page_icons/qr_code_fill.svg
+TO:   assets/icons/wallet/qr_code.svg
+
+FROM: assets/images/wallet_page_icons/paper_plane_tilt_fill.svg
+TO:   assets/icons/wallet/send.svg
+
+FROM: assets/images/navigation_bar_icons/chart.svg
+TO:   assets/icons/navigation/chart.svg
+
+FROM: assets/images/navigation_bar_icons/chart_filled.svg
+TO:   assets/icons/navigation/chart_filled.svg
+
+FROM: assets/images/navigation_bar_icons/home.svg
+TO:   assets/icons/navigation/home.svg
+
+FROM: assets/images/navigation_bar_icons/home_filled.svg
+TO:   assets/icons/navigation/home_filled.svg
+
+FROM: assets/images/navigation_bar_icons/user.svg
+TO:   assets/icons/navigation/user.svg
+
+FROM: assets/images/navigation_bar_icons/user_filled.svg
+TO:   assets/icons/navigation/user_filled.svg
+
+FROM: assets/images/navigation_bar_icons/wallet.svg
+TO:   assets/icons/navigation/wallet.svg
+
+FROM: assets/images/navigation_bar_icons/wallet_filled.svg
+TO:   assets/icons/navigation/wallet_filled.svg
+
+
+Asset ownership:
+  assets/icons/authentication/ - Social provider icons.
+  assets/icons/navigation/     - Bottom-tab icons and selected variants.
+  assets/icons/shared/         - Back, notification, and overflow icons.
+  assets/icons/wallet/         - Bank, PayPal, add, QR, and send icons.
+  assets/illustrations/splash/ - Existing splash artwork.
+  assets/illustrations/wallet/ - Existing illustrated wallet-option assets.
+  assets/images/backgrounds/  - Existing header background artwork.
+  assets/images/wallet/       - Card pattern and EMV chip artwork.
+  assets/fonts/              - Existing Inter and IBM Plex Mono files, unchanged.
+
+Unused existing assets were retained rather than removed.
+No asset license or ownership claims are made by reorganizing these files.
+
+7. OTHER FILE UPDATES
+
+lib/main.dart: Updated splash import only.
+lib/core/constants/constants.dart: Updated relocated asset strings only.
+test/widget_test.dart: Updated imports only; assertions and behavior unchanged.
+pubspec.yaml: Replaced old asset folder registrations with the new leaf directories.
+README.md: Updated moved links, folder tree, architecture status, and the current Connect Wallet preview destination.
+docs/project_organization_handover.txt: This delivery record.
+
+Empty planned folders contain .gitkeep so Git can track them.
+The six test/features/ folders are reserved for future feature tests.
+They contain no new test implementations.
+
+8. VERIFICATION
+
+Before and after the migration:
+  dart --suppress-analytics analyze lib test
+Result: No issues found.
+
+Migration checks passed:
+  All Dart files match their pre-migration contents after applying only the approved path substitutions.
+  All original SVG assets, font files, and ARB resources preserve their exact bytes.
+  Generated localization files preserve their pre-migration contents.
+  All static asset references resolve to files.
+  All local package imports resolve to files.
+  All registered asset directories exist.
+  Dynamic navigation icon filenames are preserved.
+
+No full device build, simulator visual comparison, or runtime widget suite was run for this organization pass.
+The existing startup test still expects Home although the preview flow currently opens Connect Wallet.
+The existing navigation test still expects the old Wallet placeholder text.
+These known stale test expectations were not changed because this task excludes behavior and test-logic changes.
+
+The working tree already contained user changes to connect_wallet_screen.dart and generated app_localizations.dart, plus four new bank/PayPal SVGs.
+Those changes were preserved, including the latest user-edited Connect Wallet source.
+Git may show old paths as deleted and new paths as untracked until the complete migration is staged.
+
+9. NEXT STEPS
+
+Run flutter pub get and fully restart the app so the moved asset directories are rebundled.
+Use the new feature paths when opening screens or adding feature-specific widgets.
+Keep translation edits in ARB files and regenerate localization through Flutter tooling.
+Agree on domain rules and repository responsibilities before adding implementations to the reserved layers.
+Implement offline persistence and synchronization as behavior in repositories and data sources, not merely as folders.
+Crashlytics, Analytics, security controls, REST integration, and business-logic unit tests remain separate implementation milestones.
+Update existing startup and navigation test expectations when the intended application flow is agreed.
+
+10. RESULTING PROJECT TREE
+
+
+lib/
+  app/
+    navigation/
+      global_variables.dart
+    presentation/
+      layouts/
+        screen_layout.dart
+      screens/
+        splash_screen.dart
+  core/
+    constants/
+      constants.dart
+    navigation/
+      fade_page_route.dart
+  features/
+    authentication/
+      data/
+        datasources/
+          local/
+            .gitkeep
+          remote/
+            .gitkeep
+        models/
+          .gitkeep
+        repositories/
+          .gitkeep
+      domain/
+        entities/
+          .gitkeep
+        repositories/
+          .gitkeep
+        use_cases/
+          .gitkeep
+        value_objects/
+          .gitkeep
+      presentation/
+        screens/
+          login_screen.dart
+          sign_up_screen.dart
+        widgets/
+          social_login_button.dart
+    dashboard/
+      presentation/
+        screens/
+          home_screen.dart
+    expenses/
+      data/
+        datasources/
+          local/
+            .gitkeep
+          remote/
+            .gitkeep
+        models/
+          .gitkeep
+        repositories/
+          .gitkeep
+      domain/
+        entities/
+          .gitkeep
+        repositories/
+          .gitkeep
+        use_cases/
+          .gitkeep
+        value_objects/
+          .gitkeep
+      presentation/
+        screens/
+          add_expense_screen.dart
+        widgets/
+          .gitkeep
+    profile/
+      presentation/
+        screens/
+          user_screen.dart
+    reports/
+      presentation/
+        screens/
+          chart_screen.dart
+    wallet/
+      data/
+        datasources/
+          local/
+            .gitkeep
+          remote/
+            .gitkeep
+        models/
+          .gitkeep
+        repositories/
+          .gitkeep
+      domain/
+        entities/
+          .gitkeep
+        repositories/
+          .gitkeep
+        use_cases/
+          .gitkeep
+        value_objects/
+          .gitkeep
+      presentation/
+        screens/
+          connect_wallet_screen.dart
+          wallet_screen.dart
+        widgets/
+          .gitkeep
+  l10n/
+    app_bn.arb
+    app_en.arb
+    app_localizations.dart
+    app_localizations_bn.dart
+    app_localizations_en.dart
+  main.dart
+  shared/
+    presentation/
+      widgets/
+        app_header_background.dart
+assets/
+  fonts/
+    .DS_Store
+    ibm_plex_mono/
+      IBMPlexMono-Bold.ttf
+      IBMPlexMono-Regular.ttf
+      IBMPlexMono-SemiBold.ttf
+    inter/
+      Inter_18pt-Bold.ttf
+      Inter_18pt-Medium.ttf
+      Inter_18pt-Regular.ttf
+      Inter_18pt-SemiBold.ttf
+  icons/
+    authentication/
+      apple.svg
+      facebook.svg
+      google.svg
+    navigation/
+      chart.svg
+      chart_filled.svg
+      home.svg
+      home_filled.svg
+      user.svg
+      user_filled.svg
+      wallet.svg
+      wallet_filled.svg
+    shared/
+      chevron_left.svg
+      more.svg
+      notification.svg
+    wallet/
+      add.svg
+      bank.svg
+      bank_filled.svg
+      paypal.svg
+      paypal_filled.svg
+      qr_code.svg
+      send.svg
+  illustrations/
+    splash/
+      splash.svg
+    wallet/
+      bank_account.svg
+      cash.svg
+      credit_card.svg
+  images/
+    backgrounds/
+      header_background.svg
+    navigation_bar_icons/
+      .DS_Store
+    wallet/
+      card_pattern.svg
+      emv_chip.svg
+test/
+  features/
+    authentication/
+      .gitkeep
+    dashboard/
+      .gitkeep
+    expenses/
+      .gitkeep
+    profile/
+      .gitkeep
+    reports/
+      .gitkeep
+    wallet/
+      .gitkeep
+  widget_test.dart
