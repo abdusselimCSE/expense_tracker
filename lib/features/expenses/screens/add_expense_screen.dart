@@ -1,10 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_tracker/core/constants/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/app/presentation/layouts/screen_layout.dart';
 import 'package:expense_tracker/shared/presentation/widgets/app_header_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class AddExpenseScreen extends StatefulWidget {
@@ -65,20 +65,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           ),
         ),
         leading: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ScreenLayout(),
+          onTap: () => context.pop(),
+          child: Center(
+            child: SvgPicture.asset(
+              colorFilter: ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
               ),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: Center(
-              child: SvgPicture.asset(
-                "assets/icons/shared/chevron_left.svg",
-              ),
+              "assets/icons/shared/chevron_left.svg",
             ),
           ),
         ),

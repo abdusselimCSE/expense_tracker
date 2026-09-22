@@ -1,22 +1,25 @@
 import 'package:expense_tracker/core/constants/constants.dart';
-import 'package:expense_tracker/features/expenses/screens/add_expense_screen.dart';
-import 'package:expense_tracker/app/navigation/global_variables.dart';
 import 'package:expense_tracker/shared/presentation/widgets/app_header_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class ScreenLayout extends StatefulWidget {
-  const ScreenLayout({super.key});
+  final StatefulNavigationShell navigationShell;
+  const ScreenLayout({
+    super.key,
+    required this.navigationShell,
+  });
 
   @override
   State<ScreenLayout> createState() => _ScreenLayoutState();
 }
 
 class _ScreenLayoutState extends State<ScreenLayout> {
-  int _currentIndex = 0;
+  int get _currentIndex => widget.navigationShell.currentIndex;
   void onPageChanged(int page) {
     setState(() {
-      _currentIndex = page;
+      widget.navigationShell.goBranch(page);
     });
   }
 
@@ -32,10 +35,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
             child: AppHeaderBackground(),
           ),
 
-          IndexedStack(
-            index: _currentIndex,
-            children: pages,
-          ),
+          widget.navigationShell,
         ],
       ),
 
@@ -57,14 +57,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
                   ],
                 ),
                 child: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddExpenseScreen(),
-                      ),
-                    );
-                  },
+                  onPressed: () => context.push('/add-expense'),
                   backgroundColor: AppConstants.primaryColor,
                   foregroundColor: Colors.white,
                   shape: const CircleBorder(),

@@ -1,6 +1,6 @@
+import 'package:expense_tracker/app/navigation/app_router.dart';
 import 'package:expense_tracker/core/constants/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
-import 'package:expense_tracker/app/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,7 +8,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Locale locale;
+
+  const MyApp({
+    super.key,
+    this.locale = const Locale('en'),
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +29,11 @@ class MyApp extends StatelessWidget {
       ),
     );
 
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
+      locale: locale,
       debugShowCheckedModeBanner: false,
       title: "Expense Tracker",
 
@@ -76,8 +82,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-
-      home: const SplashScreen(),
     );
   }
 }

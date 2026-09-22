@@ -1,7 +1,7 @@
 import 'package:expense_tracker/core/constants/constants.dart';
-import 'package:expense_tracker/shared/presentation/widgets/app_header_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class ConnectWalletScreen extends StatefulWidget {
   const ConnectWalletScreen({
@@ -34,7 +34,7 @@ class _ConnectWalletScreenState extends State<ConnectWalletScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,
         appBar: AppBar(
           actionsPadding: EdgeInsets.only(right: 24),
@@ -49,15 +49,14 @@ class _ConnectWalletScreenState extends State<ConnectWalletScreen> {
           ),
           centerTitle: true,
           leading: GestureDetector(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.only(
-                left: 24,
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  "assets/icons/shared/chevron_left.svg",
+            onTap: () => context.pop(),
+            child: Center(
+              child: SvgPicture.asset(
+                colorFilter: ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
                 ),
+                "assets/icons/shared/chevron_left.svg",
               ),
             ),
           ),
@@ -98,143 +97,123 @@ class _ConnectWalletScreenState extends State<ConnectWalletScreen> {
             ),
           ],
         ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            const Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: AppHeaderBackground(),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 165),
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  spreadRadius: 0,
+                  blurRadius: 38.95,
+                  offset: Offset(
+                    0,
+                    24.48,
+                  ),
+                ),
+              ],
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30),
+                topRight: Radius.circular(30),
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 165),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      spreadRadius: 0,
-                      blurRadius: 38.95,
-                      offset: Offset(
-                        0,
-                        24.48,
+
+            child: Column(
+              children: [
+                SizedBox(height: 30),
+                Column(
+                  children: [
+                    Container(
+                      width: 334,
+                      height: 48,
+                      padding: EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF4F6F6),
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: TabBar(
+                        tabs: segmentsMap,
+                        overlayColor: const WidgetStatePropertyAll(
+                          Colors.transparent,
+                        ),
+                        splashFactory: NoSplash.splashFactory,
+                        dividerColor: Colors.transparent,
+                        indicatorSize: TabBarIndicatorSize.tab,
+
+                        indicator: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(
+                            40,
+                          ),
+                        ),
+                        labelColor: AppConstants.secondaryTextColor,
+                        labelStyle: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                  ),
                 ),
-
-                child: Column(
-                  children: [
-                    SizedBox(height: 30),
-                    Column(
-                      children: [
-                        Container(
-                          width: 334,
-                          height: 48,
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF4F6F6),
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          child: TabBar(
-                            tabs: segmentsMap,
-                            overlayColor: const WidgetStatePropertyAll(
-                              Colors.transparent,
-                            ),
-                            splashFactory: NoSplash.splashFactory,
-                            dividerColor: Colors.transparent,
-                            indicatorSize: TabBarIndicatorSize.tab,
-
-                            indicator: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(
-                                40,
-                              ),
-                            ),
-                            labelColor: AppConstants.secondaryTextColor,
-                            labelStyle: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: [
-                          SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Column(
+                Expanded(
+                  child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            Stack(
                               children: [
-                                Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 41,
-                                        left: 45,
-                                        right: 45,
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 41,
+                                    left: 45,
+                                    right: 45,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(23),
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: 209,
+                                      decoration: BoxDecoration(
+                                        color: AppConstants.primaryColor,
                                       ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(23),
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 209,
-                                          decoration: BoxDecoration(
-                                            color: AppConstants.primaryColor,
+                                      child: Stack(
+                                        children: [
+                                          Positioned(
+                                            top: 29,
+                                            left: -6,
+                                            child: SvgPicture.asset(
+                                              "assets/images/wallet/card_pattern.svg",
+                                            ),
                                           ),
-                                          child: Stack(
-                                            children: [
-                                              Positioned(
-                                                top: 29,
-                                                left: -6,
-                                                child: SvgPicture.asset(
-                                                  "assets/images/wallet/card_pattern.svg",
-                                                ),
-                                              ),
 
-                                              Padding(
-                                                padding: const EdgeInsets.all(24),
-                                                child: Column(
+                                          Padding(
+                                            padding: const EdgeInsets.all(24),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    Column(
                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
-                                                        Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(
-                                                              "Debit",
-                                                              style: TextStyle(
-                                                                color: Colors.white,
-                                                                fontSize: 11.41,
-                                                                fontFamily: "IBM Plex Mono",
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              "Card",
-                                                              style: TextStyle(
-                                                                color: Colors.white,
-                                                                fontSize: 11.41,
-                                                                fontFamily: "IBM Plex Mono",
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
-                                                            ),
-                                                          ],
+                                                        Text(
+                                                          "Debit",
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 11.41,
+                                                            fontFamily: "IBM Plex Mono",
+                                                            fontWeight: FontWeight.w600,
+                                                          ),
                                                         ),
                                                         Text(
-                                                          "Mono",
+                                                          "Card",
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 11.41,
@@ -244,172 +223,189 @@ class _ConnectWalletScreenState extends State<ConnectWalletScreen> {
                                                         ),
                                                       ],
                                                     ),
-                                                    SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    SvgPicture.asset(
-                                                      "assets/images/wallet/emv_chip.svg",
-                                                      width: 26,
-                                                      height: 20,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 38,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: groups.map(
-                                                        (cardNumber) {
-                                                          return Text(
-                                                            cardNumber,
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontSize: 13.69,
-                                                              fontFamily: "IBM Plex Mono",
-                                                              fontWeight: FontWeight.w700,
-                                                              letterSpacing: 4.56,
-                                                            ),
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          "Irvan moses",
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 13.69,
-                                                            fontFamily: "IBM Plex Mono",
-                                                            fontWeight: FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          "22/01",
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 13.69,
-                                                            fontFamily: "IBM Plex Mono",
-                                                            fontWeight: FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                    Text(
+                                                      "Mono",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 11.41,
+                                                        fontFamily: "IBM Plex Mono",
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                            ],
+                                                SizedBox(
+                                                  height: 20,
+                                                ),
+                                                SvgPicture.asset(
+                                                  "assets/images/wallet/emv_chip.svg",
+                                                  width: 26,
+                                                  height: 20,
+                                                ),
+                                                SizedBox(
+                                                  height: 38,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: groups.map(
+                                                    (cardNumber) {
+                                                      return Text(
+                                                        cardNumber,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 13.69,
+                                                          fontFamily: "IBM Plex Mono",
+                                                          fontWeight: FontWeight.w700,
+                                                          letterSpacing: 4.56,
+                                                        ),
+                                                      );
+                                                    },
+                                                  ).toList(),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      "Irvan moses",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 13.69,
+                                                        fontFamily: "IBM Plex Mono",
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "22/01",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 13.69,
+                                                        fontFamily: "IBM Plex Mono",
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 30),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Add your debit Card",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          letterSpacing: -0.02,
-                                        ),
-                                      ),
-                                      SizedBox(height: 4),
-                                      Text(
-                                        "This card must be connected to a bank account under your name",
-                                        style: TextStyle(
-                                          color: AppConstants.secondaryTextColor,
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                          letterSpacing: -0.02,
-                                        ),
-                                      ),
-                                      SizedBox(height: 30),
-                                      WalletTextField(label: "NAME ON CARD"),
-                                      SizedBox(height: 12),
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 220,
-                                            child: WalletTextField(label: "DEBIT CARD NUMBER"),
-                                          ),
-                                          SizedBox(width: 11),
-                                          Expanded(
-                                            flex: 133,
-                                            child: WalletTextField(label: "CVC"),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 12),
-
-                                      Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 220,
-                                            child: WalletTextField(label: "EXPIRATION MM/YY"),
-                                          ),
-                                          SizedBox(width: 11),
-                                          Expanded(
-                                            flex: 133,
-                                            child: WalletTextField(label: "ZIP"),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 35, right: 35, top: 40),
-                            child: Column(
-                              children: [
-                                AccountOptionTile(
-                                  title: "Bank Link",
-                                  subtitle: "Connect your bank\naccount to deposit & fund",
-                                  selectedImage: "assets/icons/wallet/bank_filled.svg",
-                                  unselectedImage: "assets/icons/wallet/bank.svg",
-                                  selected: selectedAccount == 0,
-                                  onTap: () {
-                                    setState(() {
-                                      selectedAccount = 0;
-                                    });
-                                  },
-                                ),
-                                SizedBox(height: 16),
-                                AccountOptionTile(
-                                  title: "Paypal",
-                                  subtitle: "Connect you paypal account",
-                                  selectedImage: "assets/icons/wallet/paypal_filled.svg",
-                                  unselectedImage: "assets/icons/wallet/paypal.svg",
-                                  selected: selectedAccount == 1,
-                                  onTap: () {
-                                    setState(() {
-                                      selectedAccount = 1;
-                                    });
-                                  },
-                                ),
-                              ],
+                            SizedBox(height: 30),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 25),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Add your debit Card",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      letterSpacing: -0.02,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    "This card must be connected to a bank account\nunder your name",
+                                    style: TextStyle(
+                                      color: AppConstants.secondaryTextColor,
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: -0.02,
+                                    ),
+                                  ),
+                                  SizedBox(height: 30),
+                                  WalletTextField(label: "NAME ON CARD"),
+                                  SizedBox(height: 12),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 220,
+                                        child: WalletTextField(label: "DEBIT CARD NUMBER"),
+                                      ),
+                                      SizedBox(width: 11),
+                                      Expanded(
+                                        flex: 133,
+                                        child: WalletTextField(label: "CVC"),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 12),
+
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 220,
+                                        child: WalletTextField(label: "EXPIRATION MM/YY"),
+                                      ),
+                                      SizedBox(width: 11),
+                                      Expanded(
+                                        flex: 133,
+                                        child: WalletTextField(label: "ZIP"),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 35, right: 35, top: 40),
+                        child: Column(
+                          children: [
+                            AccountOptionTile(
+                              title: "Bank Link",
+                              subtitle: "Connect your bank\naccount to deposit & fund",
+                              selectedImage: "assets/icons/wallet/bank_filled.svg",
+                              unselectedImage: "assets/icons/wallet/bank.svg",
+                              selected: selectedAccount == 0,
+                              onTap: () {
+                                setState(() {
+                                  selectedAccount = 0;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 16),
+                            AccountOptionTile(
+                              title: "Paypal",
+                              subtitle: "Connect you paypal account",
+                              selectedImage: "assets/icons/wallet/paypal_filled.svg",
+                              unselectedImage: "assets/icons/wallet/paypal.svg",
+                              selected: selectedAccount == 1,
+                              onTap: () {
+                                setState(() {
+                                  selectedAccount = 1;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 200),
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton(
+                                onPressed: () {},
+                                child: Text("Next"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:expense_tracker/core/constants/constants.dart';
-import 'package:expense_tracker/app/presentation/layouts/screen_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});
@@ -22,25 +22,19 @@ class WalletScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        centerTitle: true,
         leading: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ScreenLayout(),
+          onTap: () => context.go('/home'),
+          child: Center(
+            child: SvgPicture.asset(
+              colorFilter: ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
               ),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(left: 24),
-            child: Center(
-              child: SvgPicture.asset(
-                "assets/icons/shared/chevron_left.svg",
-              ),
+              "assets/icons/shared/chevron_left.svg",
             ),
           ),
         ),
+        centerTitle: true,
         actions: [
           IconButton(
             onPressed: () {},
@@ -127,103 +121,144 @@ class WalletScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          showDialog(
+                          final router = GoRouter.of(context);
+
+                          showGeneralDialog(
                             context: context,
-                            builder: (context) {
-                              return Dialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Container(
-                                  width: 380,
-                                  height: 355,
-                                  padding: EdgeInsets.all(24),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      width: 1,
-                                      color: AppConstants.primaryColor,
+                            barrierDismissible: true,
+                            barrierLabel: 'Dismiss',
+                            barrierColor: Colors.black.withValues(alpha: 0.45),
+                            transitionDuration: const Duration(milliseconds: 400),
+
+                            pageBuilder: (context, animation, secondaryAnimation) {
+                              return SafeArea(
+                                child: Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 24,
+                                      right: 24,
+                                      bottom: 120,
                                     ),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "Select an option",
-                                        style:
-                                            TextTheme.of(
-                                              context,
-                                            ).titleMedium!.copyWith(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500,
+
+                                    // Material ONLY covers the dialog
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 355,
+                                        padding: const EdgeInsets.all(24),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: AppConstants.primaryColor,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              "Select an option",
+                                              style: TextTheme.of(context).titleMedium!.copyWith(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                      ),
-                                      SizedBox(height: 24),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Cards",
-                                            style:
-                                                TextTheme.of(
-                                                  context,
-                                                ).titleMedium!.copyWith(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w500,
+
+                                            const SizedBox(height: 24),
+
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                                router.push('/wallet/connect-wallet');
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Cards",
+                                                    style: TextTheme.of(context).titleMedium!.copyWith(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  SvgPicture.asset(
+                                                    "assets/illustrations/wallet/credit_card.svg",
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                            const SizedBox(height: 8),
+
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Bank Account",
+                                                  style: TextTheme.of(context).titleMedium!.copyWith(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
-                                          ),
-                                          SvgPicture.asset(
-                                            "assets/illustrations/wallet/credit_card.svg",
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Bank Account",
-                                            style:
-                                                TextTheme.of(
-                                                  context,
-                                                ).titleMedium!.copyWith(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w500,
+                                                SvgPicture.asset(
+                                                  "assets/illustrations/wallet/bank_account.svg",
                                                 ),
-                                          ),
-                                          SvgPicture.asset(
-                                            "assets/illustrations/wallet/bank_account.svg",
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 8),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Others",
-                                            style:
-                                                TextTheme.of(
-                                                  context,
-                                                ).titleMedium!.copyWith(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w500,
+                                              ],
+                                            ),
+
+                                            const SizedBox(height: 8),
+
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  "Others",
+                                                  style: TextTheme.of(context).titleMedium!.copyWith(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
                                                 ),
-                                          ),
-                                          SvgPicture.asset(
-                                            "assets/illustrations/wallet/cash.svg",
-                                          ),
-                                        ],
+                                                SvgPicture.asset(
+                                                  "assets/illustrations/wallet/cash.svg",
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                      SizedBox(height: 8),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               );
                             },
+
+                            transitionBuilder:
+                                (
+                                  context,
+                                  animation,
+                                  secondaryAnimation,
+                                  child,
+                                ) {
+                                  final slideAnimation = CurvedAnimation(
+                                    parent: animation,
+
+                                    // smooth entrance with tiny settling effect
+                                    curve: const Cubic(0.16, 1.02, 0.30, 1.0),
+
+                                    // smooth downward dismissal
+                                    reverseCurve: Curves.easeInCubic,
+                                  );
+
+                                  return SlideTransition(
+                                    position: Tween<Offset>(
+                                      begin: const Offset(0, 1.2),
+                                      end: Offset.zero,
+                                    ).animate(slideAnimation),
+                                    child: child,
+                                  );
+                                },
                           );
                         },
                         child: Container(

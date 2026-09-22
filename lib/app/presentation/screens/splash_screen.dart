@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'package:expense_tracker/app/presentation/layouts/screen_layout.dart';
 import 'package:expense_tracker/core/constants/constants.dart';
-import 'package:expense_tracker/core/navigation/fade_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -33,13 +32,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed && mounted) {
-        Navigator.of(
-          context,
-        ).pushReplacement(
-          MyCustomRouteTransition(
-            route: const ScreenLayout(),
-          ),
-        );
+        context.go('/home');
       }
     });
 
