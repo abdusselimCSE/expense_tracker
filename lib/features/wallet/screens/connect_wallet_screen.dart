@@ -1,7 +1,7 @@
 import 'package:expense_tracker/core/constants/constants.dart';
+import 'package:expense_tracker/shared/presentation/widgets/app_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
 class ConnectWalletScreen extends StatefulWidget {
   const ConnectWalletScreen({
@@ -48,18 +48,7 @@ class _ConnectWalletScreenState extends State<ConnectWalletScreen> {
             ),
           ),
           centerTitle: true,
-          leading: GestureDetector(
-            onTap: () => context.pop(),
-            child: Center(
-              child: SvgPicture.asset(
-                colorFilter: ColorFilter.mode(
-                  Colors.white,
-                  BlendMode.srcIn,
-                ),
-                "assets/icons/shared/chevron_left.svg",
-              ),
-            ),
-          ),
+          leading: AppBackButton(),
           actions: [
             IconButton(
               onPressed: () {},

@@ -1,10 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expense_tracker/core/constants/constants.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/shared/presentation/widgets/app_back_button.dart';
 import 'package:expense_tracker/shared/presentation/widgets/app_header_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class AddExpenseScreen extends StatefulWidget {
@@ -64,18 +64,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             color: Colors.white,
           ),
         ),
-        leading: GestureDetector(
-          onTap: () => context.pop(),
-          child: Center(
-            child: SvgPicture.asset(
-              colorFilter: ColorFilter.mode(
-                Colors.white,
-                BlendMode.srcIn,
-              ),
-              "assets/icons/shared/chevron_left.svg",
-            ),
-          ),
-        ),
+        leading: AppBackButton(),
         actionsPadding: EdgeInsets.only(right: 24),
         actions: [
           Align(

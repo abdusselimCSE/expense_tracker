@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:expense_tracker/core/constants/constants.dart';
 import 'package:expense_tracker/features/dashboard/data/sample_transactions.dart';
 import 'package:expense_tracker/l10n/app_localizations.dart';
+import 'package:expense_tracker/shared/presentation/widgets/notification_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -56,40 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-
-                        style: IconButton.styleFrom(
-                          backgroundColor: const Color(0x14FFFFFF),
-                          foregroundColor: Colors.white,
-                          fixedSize: const Size(
-                            40,
-                            40,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7),
-                          ),
-                        ),
-                        icon: Stack(
-                          children: [
-                            Icon(
-                              Icons.notifications_outlined,
-                            ),
-                            Positioned(
-                              top: 3,
-                              left: 13,
-                              child: Container(
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFFFFB48F),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      NotificationIcon(),
                     ],
                   ),
                 ],

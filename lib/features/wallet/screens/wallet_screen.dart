@@ -1,4 +1,6 @@
 import 'package:expense_tracker/core/constants/constants.dart';
+import 'package:expense_tracker/shared/presentation/widgets/app_back_button.dart';
+import 'package:expense_tracker/shared/presentation/widgets/notification_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -22,54 +24,12 @@ class WalletScreen extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        leading: GestureDetector(
+        leading: AppBackButton(
           onTap: () => context.go('/home'),
-          child: Center(
-            child: SvgPicture.asset(
-              colorFilter: ColorFilter.mode(
-                Colors.white,
-                BlendMode.srcIn,
-              ),
-              "assets/icons/shared/chevron_left.svg",
-            ),
-          ),
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {},
-
-            style: IconButton.styleFrom(
-              backgroundColor: const Color(0x14FFFFFF),
-              foregroundColor: Colors.white,
-              fixedSize: const Size(
-                40,
-                40,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7),
-              ),
-            ),
-            icon: Stack(
-              children: [
-                Icon(
-                  Icons.notifications_outlined,
-                ),
-                Positioned(
-                  top: 3,
-                  left: 13,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFFFB48F),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          NotificationIcon(),
         ],
       ),
       body: Padding(

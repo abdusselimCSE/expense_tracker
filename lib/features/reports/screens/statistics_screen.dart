@@ -1,5 +1,6 @@
 import 'package:expense_tracker/core/constants/constants.dart';
 import 'package:expense_tracker/features/dashboard/data/sample_transactions.dart';
+import 'package:expense_tracker/shared/presentation/widgets/app_back_button.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -76,6 +77,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(
           "Statistics",
@@ -85,19 +87,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             color: Color(0xff222222),
           ),
         ),
-        leading: GestureDetector(
+        leading: AppBackButton(
           onTap: () => context.go('/home'),
-          child: Center(
-            child: SvgPicture.asset(
-              colorFilter: ColorFilter.mode(
-                Color(0xff424242),
-                BlendMode.srcIn,
-              ),
-              "assets/icons/shared/chevron_left.svg",
-              width: 8.4,
-              height: 14,
-            ),
-          ),
+          color: Color(0xff424242),
         ),
         actions: [
           Padding(
