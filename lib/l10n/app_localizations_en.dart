@@ -24,6 +24,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goodAfternoon => 'Good Afternoon,';
 
   @override
+  String get transactionsHistory => 'Transactions History';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get transfer => 'Transfer';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get chooseLanguage => 'Choose language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get bangla => 'Bangla';
+
+  @override
   String get addExpense => 'Add Expense';
 
   @override

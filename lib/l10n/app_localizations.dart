@@ -122,6 +122,60 @@ abstract class AppLocalizations {
   /// **'Good Afternoon,'**
   String get goodAfternoon;
 
+  /// Heading above the recent transactions list on the Home screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions History'**
+  String get transactionsHistory;
+
+  /// Action for opening the complete transactions list.
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// Relative date label for a transaction from today.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// Relative date label for a transaction from yesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// Title for a money transfer transaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get transfer;
+
+  /// Profile setting used to change the application language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// Title of the application language selector.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose language'**
+  String get chooseLanguage;
+
+  /// English language option.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// Bangla language option.
+  ///
+  /// In en, this message translates to:
+  /// **'Bangla'**
+  String get bangla;
+
   /// No description provided for @addExpense.
   ///
   /// In en, this message translates to:

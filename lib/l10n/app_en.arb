@@ -4,11 +4,47 @@
   "income": "Income",
   "expenses": "Expenses",
   "inputYourExpenses": "Input your expenses",
-  "goodAfternoon":"Good Afternoon,",
+  "goodAfternoon": "Good Afternoon,",
+  "transactionsHistory": "Transactions History",
+  "@transactionsHistory": {
+    "description": "Heading above the recent transactions list on the Home screen."
+  },
+  "seeAll": "See all",
+  "@seeAll": {
+    "description": "Action for opening the complete transactions list."
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Relative date label for a transaction from today."
+  },
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "Relative date label for a transaction from yesterday."
+  },
+  "transfer": "Transfer",
+  "@transfer": {
+    "description": "Title for a money transfer transaction."
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Profile setting used to change the application language."
+  },
+  "chooseLanguage": "Choose language",
+  "@chooseLanguage": {
+    "description": "Title of the application language selector."
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language option."
+  },
+  "bangla": "Bangla",
+  "@bangla": {
+    "description": "Bangla language option."
+  },
   "addExpense": "Add Expense",
-  "name":"NAME",
-  "amount":"AMAOUNT",
-  "date":"DATE",
-  "invoice":"INVOICE",
+  "name": "NAME",
+  "amount": "AMAOUNT",
+  "date": "DATE",
+  "invoice": "INVOICE",
   "addInvoice": "Add Invoice"
 }

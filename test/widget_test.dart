@@ -61,12 +61,25 @@ void main() {
     await tester.pumpWidget(const MyApp(locale: Locale('bn')));
     appRouter.go('/home');
     await tester.pumpAndSettle();
+    expect(find.text('শুভ অপরাহ্ন,'), findsOneWidget);
     expect(find.text('মোট ব্যালেন্স'), findsOneWidget);
     expect(find.text('আয়'), findsOneWidget);
     expect(find.text('ব্যয়'), findsOneWidget);
+    expect(find.text('লেনদেনের ইতিহাস'), findsOneWidget);
+    expect(find.text('সব দেখুন'), findsOneWidget);
+    expect(find.text('আজ'), findsOneWidget);
+    expect(find.text('গতকাল'), findsWidgets);
+    expect(find.text('স্থানান্তর'), findsWidgets);
+    expect(find.textContaining('৳'), findsWidgets);
     expect(find.text('Total Balance'), findsNothing);
     expect(find.text('Income'), findsNothing);
     expect(find.text('Expenses'), findsNothing);
+    expect(find.text('Transactions History'), findsNothing);
+    expect(find.text('See all'), findsNothing);
+    expect(find.text('Today'), findsNothing);
+    expect(find.text('Yesterday'), findsNothing);
+    expect(find.text('Transfer'), findsNothing);
+    expect(find.textContaining(r'$'), findsNothing);
   });
 
   testWidgets('Removing splash cancels its delayed navigation', (

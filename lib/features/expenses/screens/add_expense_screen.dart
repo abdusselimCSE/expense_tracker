@@ -224,6 +224,23 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 160),
+                    Align(
+                      child: SizedBox(
+                        height: 50,
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: () => FocusScope.of(context).unfocus(),
+                          child: Text(
+                            "Done",
+                            style: TextTheme.of(context).labelLarge!.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -24,6 +24,33 @@ class AppLocalizationsBn extends AppLocalizations {
   String get goodAfternoon => 'শুভ অপরাহ্ন,';
 
   @override
+  String get transactionsHistory => 'লেনদেনের ইতিহাস';
+
+  @override
+  String get seeAll => 'সব দেখুন';
+
+  @override
+  String get today => 'আজ';
+
+  @override
+  String get yesterday => 'গতকাল';
+
+  @override
+  String get transfer => 'স্থানান্তর';
+
+  @override
+  String get language => 'ভাষা';
+
+  @override
+  String get chooseLanguage => 'ভাষা নির্বাচন করুন';
+
+  @override
+  String get english => 'ইংরেজি';
+
+  @override
+  String get bangla => 'বাংলা';
+
+  @override
   String get addExpense => 'খরচ যোগ করুন';
 
   @override

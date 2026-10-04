@@ -1,4 +1,8 @@
 import 'package:expense_tracker/core/constants/constants.dart';
+import 'package:expense_tracker/core/localization/locale_controller.dart';
+import 'package:expense_tracker/features/profile/data/profile_data.dart';
+import 'package:expense_tracker/features/profile/widgets/profile_identity_header.dart';
+import 'package:expense_tracker/l10n/app_localizations.dart';
 import 'package:expense_tracker/shared/presentation/widgets/app_back_button.dart';
 import 'package:expense_tracker/shared/presentation/widgets/notification_icon.dart';
 import 'package:expense_tracker/shared/presentation/widgets/profile_settings_tile.dart';
@@ -10,6 +14,8 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
@@ -35,124 +41,161 @@ class UserScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            top: 211,
-            left: 0,
-            right: 0,
-            child: Column(
-              children: [
-                Center(
-                  child: ClipOval(
-                    clipBehavior: Clip.antiAlias,
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(color: Color(0xffF1F1F1), shape: BoxShape.circle),
-                      child: Transform.translate(
-                        offset: const Offset(0, 12),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 211, bottom: 24),
+        child: Column(
+          children: [
+            ProfileIdentityHeader(
+              name: currentProfileName,
+              username: currentProfileUsername,
+              avatarAsset: currentProfileAvatarAsset,
+            ),
+
+            // Invite Friends
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 34,
+                left: 25,
+                right: 25,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Color(0xffF0F6F5),
+                        radius: 25,
                         child: Image.asset(
-                          "assets/icons/profile/Woman.png",
-                          alignment: Alignment.topCenter,
+                          "assets/icons/profile/diamond.png",
+                          width: 33,
+                          height: 27,
+                          fit: BoxFit.contain,
                         ),
                       ),
-                    ),
+                      const SizedBox(width: 20),
+                      const Text(
+                        'Invite Friends',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Enjelin Morgeana",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff222222),
+                  Divider(
+                    thickness: 1,
+                    color: Color(0xffEEEEEE),
                   ),
-                ),
-                SizedBox(height: 5),
-                Text(
-                  "@enjelin_morgeana",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: AppConstants.primaryColor,
-                  ),
-                ),
+                ],
+              ),
+            ),
 
-                // Invite Friends
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 34,
-                    left: 25,
-                    right: 25,
+            // Settings
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 34,
+                right: 34,
+                top: 0,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(height: 16),
+                  ProfileSettingsTile(
+                    title: "Account info",
+                    iconPath: "assets/icons/profile/user-fill.svg",
+                    onTap: () => context.push('/profile/account-info'),
                   ),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Color(0xffF0F6F5),
-                            radius: 25,
-                            child: Image.asset(
-                              "assets/icons/profile/diamond.png",
-                              width: 33,
-                              height: 27,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          const Text(
-                            'Invite Friends',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Divider(
-                        thickness: 1,
-                        color: Color(0xffEEEEEE),
-                      ),
-                    ],
+                  SizedBox(height: 16),
+                  ProfileSettingsTile(
+                    title: "Login and security",
+                    iconPath: "assets/icons/profile/shield-checkered-fll.svg",
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 16),
+                  ProfileSettingsTile(
+                    title: "Data and privacy",
+                    iconPath: "assets/icons/profile/lock-key-fill.svg",
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 16),
+                  ProfileSettingsTile(
+                    title: l10n.language,
+                    leading: const Icon(
+                      Icons.language,
+                      color: AppConstants.secondaryTextColor,
+                      size: 28,
+                    ),
+                    onTap: () => _showLanguageSelector(context),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showLanguageSelector(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final currentLocale = Localizations.localeOf(context);
+    final selectedLocale = await showModalBottomSheet<Locale>(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (sheetContext) {
+        final languages = [
+          (locale: const Locale('en'), label: l10n.english),
+          (locale: const Locale('bn'), label: l10n.bangla),
+        ];
+
+        return SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l10n.chooseLanguage,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 34,
-                    right: 34,
-                    top: 0,
+                const SizedBox(height: 16),
+                for (final language in languages)
+                  ListTile(
+                    key: ValueKey(
+                      'languageOption-${language.locale.languageCode}',
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(language.label),
+                    trailing: currentLocale.languageCode == language.locale.languageCode
+                        ? const Icon(
+                            Icons.check_rounded,
+                            color: AppConstants.primaryColor,
+                          )
+                        : null,
+                    onTap: () {
+                      Navigator.of(sheetContext).pop(language.locale);
+                    },
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 16),
-                      ProfileSettingsTile(
-                        title: "Account info",
-                        iconPath: "assets/icons/profile/user-fill.svg",
-                        onTap: () {},
-                      ),
-                      SizedBox(height: 16),
-                      ProfileSettingsTile(
-                        title: "Login and security",
-                        iconPath: "assets/icons/profile/shield-checkered-fll.svg",
-                        onTap: () {},
-                      ),
-                      SizedBox(height: 16),
-                      ProfileSettingsTile(
-                        title: "Data and privacy",
-                        iconPath: "assets/icons/profile/lock-key-fill.svg",
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
+
+    if (!context.mounted || selectedLocale == null) {
+      return;
+    }
+
+    LocaleScope.of(context).setLocale(selectedLocale);
   }
 }

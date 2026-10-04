@@ -17,7 +17,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final homeLocalizer = _HomeLocalizer.of(context);
+    final l10n = homeLocalizer.l10n;
     final bool isTransactionEmpty = transactions.isEmpty;
 
     return Scaffold(
@@ -95,17 +96,20 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                "Transactions History",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(0xff222222),
-                                  letterSpacing: -0.02,
+                              Expanded(
+                                child: Text(
+                                  l10n.transactionsHistory,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xff222222),
+                                    letterSpacing: -0.02,
+                                  ),
                                 ),
                               ),
+                              const SizedBox(width: 12),
                               Text(
-                                "See all",
+                                l10n.seeAll,
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -124,12 +128,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 final transaction = transactions[index];
                                 final bool isIncome = transaction['isIncome'];
                                 final num amount = transaction['amount'];
-                                final formattedAmount = NumberFormat("#,##0.00", "en").format(amount);
 
                                 return ListTile(
                                   contentPadding: EdgeInsets.zero,
                                   title: Text(
-                                    transaction['title']!,
+                                    homeLocalizer.transactionTitle(
+                                      transaction['title'],
+                                    ),
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
@@ -138,7 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   subtitle: Text(
-                                    transaction['date'],
+                                    homeLocalizer.transactionDate(
+                                      transaction['date'],
+                                    ),
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
@@ -162,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    "${isIncome ? "+" : "-"} \$ $formattedAmount",
+                                    "${isIncome ? "+" : "-"} ${homeLocalizer.currency(amount)}",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
@@ -185,6 +192,53 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+class _HomeLocalizer {
+  const _HomeLocalizer._({
+    required this.l10n,
+    required this.localeName,
+    required this.numberFormat,
+    required this.currencySymbol,
+  });
+
+  final AppLocalizations l10n;
+  final String localeName;
+  final NumberFormat numberFormat;
+  final String currencySymbol;
+
+  factory _HomeLocalizer.of(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    final isBangla = locale.languageCode == 'bn';
+
+    return _HomeLocalizer._(
+      l10n: AppLocalizations.of(context)!,
+      localeName: locale.toLanguageTag(),
+      numberFormat: NumberFormat(
+        isBangla ? "#,##,##0.00" : "#,##0.00",
+        locale.toLanguageTag(),
+      ),
+      currencySymbol: isBangla ? '৳' : r'$',
+    );
+  }
+
+  String currency(num amount) {
+    return "$currencySymbol ${numberFormat.format(amount)}";
+  }
+
+  String transactionDate(String date) {
+    return switch (date) {
+      'Today' => l10n.today,
+      'Yesterday' => l10n.yesterday,
+      _ => DateFormat.yMMMd(
+        localeName,
+      ).format(DateFormat('MMM d, y', 'en_US').parse(date)),
+    };
+  }
+
+  String transactionTitle(String title) {
+    return title == 'Transfer' ? l10n.transfer : title;
+  }
+}
+
 class BalanceCard extends StatelessWidget {
   const BalanceCard({
     super.key,
@@ -192,14 +246,8 @@ class BalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final bool isBangla = Localizations.localeOf(context).languageCode == 'bn';
-
-    final numberFormat = NumberFormat(
-      isBangla ? "#,##,##0.00" : "#,##0.00",
-      isBangla ? 'bn' : 'en_US',
-    );
-    final currencySymbol = isBangla ? '৳' : r'$';
+    final homeLocalizer = _HomeLocalizer.of(context);
+    final l10n = homeLocalizer.l10n;
 
     return Container(
       padding: EdgeInsets.all(20),
@@ -223,39 +271,50 @@ class BalanceCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          l10n.totalBalance,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              l10n.totalBalance,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              Icons.keyboard_arrow_up,
+                              color: Color(0xffEEEEEE),
+                              size: 18,
+                            ),
+                          ],
+                        ),
+                      ),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          homeLocalizer.currency(2548.00),
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
                             color: Colors.white,
+                            letterSpacing: 0.05,
                           ),
                         ),
-                        SizedBox(width: 5),
-
-                        Icon(
-                          Icons.keyboard_arrow_up,
-                          color: Color(0xffEEEEEE),
-                          size: 18,
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "$currencySymbol ${numberFormat.format(2548.00)}",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                        letterSpacing: 0.05,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 12),
                 InkWell(
                   onTap: () {},
                   child: Padding(
@@ -274,91 +333,114 @@ class BalanceCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withValues(
-                            alpha: 0.15,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white.withValues(
+                                alpha: 0.15,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.arrow_downward_sharp,
+                              size: 18,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        child: const Icon(
-                          Icons.arrow_downward_sharp,
-                          size: 18,
-                          color: Colors.white,
-                        ),
+                          SizedBox(width: 6),
+                          Text(
+                            l10n.income,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xffD0E5E4),
+                              letterSpacing: 0.05,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 6),
-                      Text(
-                        l10n.income,
+                    ),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        homeLocalizer.currency(1840.00),
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xffD0E5E4),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                           letterSpacing: 0.05,
                         ),
                       ),
-                    ],
-                  ),
-                  Text(
-                    "$currencySymbol ${numberFormat.format(1840.00)}",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      letterSpacing: 0.05,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white.withValues(
-                            alpha: 0.15,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 24,
+                            height: 24,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white.withValues(
+                                alpha: 0.15,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.arrow_upward_sharp,
+                              size: 18,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        child: const Icon(
-                          Icons.arrow_upward_sharp,
-                          size: 18,
-                          color: Colors.white,
-                        ),
+                          SizedBox(width: 6),
+                          Text(
+                            l10n.expenses,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xffD0E5E4),
+                              letterSpacing: 0.05,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 6),
-                      Text(
-                        l10n.expenses,
+                    ),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        homeLocalizer.currency(284.00),
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xffD0E5E4),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                           letterSpacing: 0.05,
                         ),
                       ),
-                    ],
-                  ),
-                  Text(
-                    "$currencySymbol ${numberFormat.format(284.00)}",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                      letterSpacing: 0.05,
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

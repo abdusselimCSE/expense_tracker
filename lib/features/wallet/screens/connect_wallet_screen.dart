@@ -3,10 +3,15 @@ import 'package:expense_tracker/shared/presentation/widgets/app_back_button.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+enum ConnectWalletSection { cards, accounts }
+
 class ConnectWalletScreen extends StatefulWidget {
   const ConnectWalletScreen({
     super.key,
+    this.initialSection = ConnectWalletSection.cards,
   });
+
+  final ConnectWalletSection initialSection;
 
   @override
   State<ConnectWalletScreen> createState() => _ConnectWalletScreenState();
@@ -33,6 +38,7 @@ class _ConnectWalletScreenState extends State<ConnectWalletScreen> {
 
     return DefaultTabController(
       length: 2,
+      initialIndex: widget.initialSection == ConnectWalletSection.accounts ? 1 : 0,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         extendBodyBehindAppBar: true,

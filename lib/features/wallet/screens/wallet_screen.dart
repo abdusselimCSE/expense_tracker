@@ -1,4 +1,5 @@
 import 'package:expense_tracker/core/constants/constants.dart';
+import 'package:expense_tracker/features/wallet/screens/connect_wallet_screen.dart';
 import 'package:expense_tracker/shared/presentation/widgets/app_back_button.dart';
 import 'package:expense_tracker/shared/presentation/widgets/notification_icon.dart';
 import 'package:flutter/material.dart';
@@ -80,10 +81,10 @@ class WalletScreen extends StatelessWidget {
                   Column(
                     children: [
                       InkWell(
-                        onTap: () {
+                        onTap: () async {
                           final router = GoRouter.of(context);
 
-                          showGeneralDialog(
+                          final selectedSection = await showGeneralDialog<ConnectWalletSection>(
                             context: context,
                             barrierDismissible: true,
                             barrierLabel: 'Dismiss',
@@ -130,8 +131,9 @@ class WalletScreen extends StatelessWidget {
 
                                             InkWell(
                                               onTap: () {
-                                                Navigator.of(context).pop();
-                                                router.push('/wallet/connect-wallet');
+                                                Navigator.of(context).pop(
+                                                  ConnectWalletSection.cards,
+                                                );
                                               },
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,20 +154,27 @@ class WalletScreen extends StatelessWidget {
 
                                             const SizedBox(height: 8),
 
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Bank Account",
-                                                  style: TextTheme.of(context).titleMedium!.copyWith(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w500,
+                                            InkWell(
+                                              onTap: () {
+                                                Navigator.of(context).pop(
+                                                  ConnectWalletSection.accounts,
+                                                );
+                                              },
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Bank Account",
+                                                    style: TextTheme.of(context).titleMedium!.copyWith(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
                                                   ),
-                                                ),
-                                                SvgPicture.asset(
-                                                  "assets/illustrations/wallet/bank_account.svg",
-                                                ),
-                                              ],
+                                                  SvgPicture.asset(
+                                                    "assets/illustrations/wallet/bank_account.svg",
+                                                  ),
+                                                ],
+                                              ),
                                             ),
 
                                             const SizedBox(height: 8),
@@ -219,6 +228,15 @@ class WalletScreen extends StatelessWidget {
                                     child: child,
                                   );
                                 },
+                          );
+
+                          if (!context.mounted || selectedSection == null) {
+                            return;
+                          }
+
+                          router.push(
+                            '/wallet/connect-wallet',
+                            extra: selectedSection,
                           );
                         },
                         child: Container(
